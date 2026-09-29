@@ -1,0 +1,20 @@
+---
+# Inherit everything from the base Google style guide
+BasedOnStyle: Google
+
+# Force the use of tabs for indentation
+UseTab: Always
+
+# Set tab width to match Google's default visual sizing (or change to 4 if preferred)
+TabWidth: 4
+IndentWidth: 4
+
+# Ensure access modifiers (public, private) are also indented properly with tabs
+AccessModifierOffset: -2
+
+# Align continued lines or parameters using tabs
+AlignAfterOpenBracket: Align
+ContinuationIndentWidth: 2
+
+ColumnLimit: 100
+...
