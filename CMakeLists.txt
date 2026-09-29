@@ -27,9 +27,11 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 find_package(CUDAToolkit REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 add_executable(matched_filter
     src/main.cpp
+    src/config.cpp
 )
 
 target_include_directories(matched_filter PRIVATE
