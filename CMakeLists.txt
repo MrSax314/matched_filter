@@ -45,6 +45,8 @@ set_target_properties(matched_filter PROPERTIES
     CUDA_SEPARABLE_COMPILATION OFF
 )
 
+add_subdirectory(libraries/lfm_iq_streamer)
+
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
