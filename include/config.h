@@ -3,10 +3,10 @@
 
 namespace matched_filter {
 
-struct Config {
-  int port;
+struct AppConfig {
+	int port;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Config, port);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AppConfig, port);
 
-} // namespace matched_filter
+}  // namespace matched_filter
