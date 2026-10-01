@@ -13,8 +13,8 @@ namespace matched_filter {
 
 UDPClient::UDPClient(const ConfigFile& cfg) {
 	// Create IPv4 UDP socket
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-	if (sockfd < 0) {
+	sockfd_ = socket(AF_INET, SOCK_DGRAM, 0);
+	if (sockfd_ < 0) {
 		perror("Failed to create socket");
 		exit(EXIT_FAILURE);
 	}
@@ -30,13 +30,20 @@ UDPClient::UDPClient(const ConfigFile& cfg) {
 	servaddr.sin_port = htons(cfg.port);
 
 	// Bind socket to server
-	int ret = bind(sockfd, (const struct sockaddr*)&servaddr, sizeof(servaddr));
+	int ret = bind(sockfd_, (const struct sockaddr*)&servaddr, sizeof(servaddr));
 	if (ret < 0) {
 		perror("Socket bind failed");
 		exit(EXIT_FAILURE);
 	}
 
 	spdlog::info("UDP Client initialized");
+}
+
+UDPClient::~UDPClient() {
+	if (sockfd_ >= 0) {
+		close(sockfd_);
+		spdlog::info("Close UDP socket");
+	}
 }
 
 }  // namespace matched_filter

@@ -33,6 +33,7 @@ find_package(spdlog CONFIG REQUIRED)
 add_executable(matched_filter
     src/main.cpp
     signal_processor/src/app_config.cpp
+    signal_processor/src/rp_buffer.cpp
     networking/src/udp_socket.cpp
 )
 

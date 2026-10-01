@@ -9,6 +9,9 @@ namespace matched_filter {
 struct ConfigFile {
 	std::string ip;
 	int port;
+	int rp_buffer_size;
+	float sample_rate_hz;
+	float pri_s;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ConfigFile, ip, port);

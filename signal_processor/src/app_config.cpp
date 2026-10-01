@@ -12,8 +12,9 @@ AppConfig::AppConfig(std::string cfg) {
 	std::ifstream f(cfg);
 	using json = nlohmann::json;
 	json j = json::parse(f);
-	// std::cout << "Loaded config: " << j.dump() << "\n";
 	spdlog::info("Loaded config: {}", j.dump());
+
+	// Store data members
 	config_ = j.get<ConfigFile>();
 }
 
