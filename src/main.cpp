@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "app_config.h"
+#include "spdlog/spdlog.h"
 #include "udp_socket.h"
 
 using json = nlohmann::json;

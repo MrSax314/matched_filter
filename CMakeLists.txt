@@ -28,6 +28,7 @@ endif()
 
 find_package(CUDAToolkit REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
 add_executable(matched_filter
     src/main.cpp
@@ -41,7 +42,7 @@ target_include_directories(matched_filter PRIVATE
     ${CMAKE_SOURCE_DIR}/cuda/include
 )
 
-target_link_libraries(matched_filter PRIVATE CUDA::cudart CUDA::cufft)
+target_link_libraries(matched_filter PRIVATE CUDA::cudart CUDA::cufft spdlog::spdlog)
 
 set_target_properties(matched_filter PROPERTIES
     CUDA_SEPARABLE_COMPILATION OFF

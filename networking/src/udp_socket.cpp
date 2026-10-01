@@ -1,8 +1,8 @@
 #include "udp_socket.h"
 
 #include <arpa/inet.h>
-#include <bits/stdc++.h>
 #include <netinet/in.h>
+#include <spdlog/spdlog.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -35,6 +35,8 @@ UDPClient::UDPClient(const ConfigFile& cfg) {
 		perror("Socket bind failed");
 		exit(EXIT_FAILURE);
 	}
+
+	spdlog::info("UDP Client initialized");
 }
 
 }  // namespace matched_filter
