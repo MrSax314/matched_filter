@@ -1,13 +1,14 @@
-#include <config.h>
 
 #include <iostream>
+
+#include "app_config.h"
+#include "udp_socket.h"
 
 using json = nlohmann::json;
 
 int main() {
-	matched_filter::AppConfig config;
-	json j = config;
-	std::cout << j.dump() << "\n";
+	matched_filter::AppConfig config("/home/astehr3/repos/matched_filter/config.json");
+	matched_filter::UDPClient client(config.GetConfig());
 
 	std::cout << "Hello World!" << std::endl;
 	return 0;

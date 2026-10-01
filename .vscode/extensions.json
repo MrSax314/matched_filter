@@ -2,6 +2,7 @@
     "recommendations": [
         "llvm-vs-code-extensions.vscode-clangd",
         "njpwerner.autodocstring",
+        "cschlosser.doxdocgen",
         "aaron-bond.better-comments",
         "ms-python.python"
     ]
