@@ -15,8 +15,7 @@ UDPClient::UDPClient(const ConfigFile& cfg) {
 	// Create IPv4 UDP socket
 	sockfd_ = socket(AF_INET, SOCK_DGRAM, 0);
 	if (sockfd_ < 0) {
-		perror("Failed to create socket");
-		exit(EXIT_FAILURE);
+		spdlog::error("Failed to create socket");
 	}
 
 	// Fill out server information
@@ -32,8 +31,7 @@ UDPClient::UDPClient(const ConfigFile& cfg) {
 	// Bind socket to server
 	int ret = bind(sockfd_, (const struct sockaddr*)&servaddr, sizeof(servaddr));
 	if (ret < 0) {
-		perror("Socket bind failed");
-		exit(EXIT_FAILURE);
+		spdlog::error("Socket bind failed");
 	}
 
 	spdlog::info("UDP Client initialized");

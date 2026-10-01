@@ -9,10 +9,16 @@
 using json = nlohmann::json;
 
 int main() {
-	matched_filter::AppConfig config("/home/astehr3/repos/matched_filter/config.json");
-	// matched_filter::RPBuffer(config.GetConfig().buffer_size);
-	matched_filter::UDPClient client(config.GetConfig());
+	// Read config file
+	matched_filter::AppConfig app_config("/home/astehr3/repos/matched_filter/config.json");
+	const matched_filter::ConfigFile& config = app_config.GetConfig();
 
-	std::cout << "Hello World!" << std::endl;
+	// Configure shared memory
+	size_t resource_period_size = config.sample_rate_hz * config.pri_s;
+	matched_filter::RPBuffer rp_buffer(config.rp_buffer_count, resource_period_size);
+
+	// Configure network connection
+	matched_filter::UDPClient client(app_config.GetConfig());
+
 	return 0;
 }
