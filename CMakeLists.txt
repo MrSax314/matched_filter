@@ -34,6 +34,8 @@ add_executable(matched_filter
     src/main.cpp
     signal_processor/src/app_config.cpp
     signal_processor/src/rp_buffer.cpp
+    signal_processor/src/signal_processor.cpp
+    networking/src/socket.cpp
     networking/src/udp_socket.cpp
 )
 

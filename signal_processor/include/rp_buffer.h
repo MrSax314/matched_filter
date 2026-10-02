@@ -32,6 +32,7 @@ class RPBuffer {
 	void InitializePinnedMemory(size_t rp_size);
 
 	std::vector<ResourcePeriod> data_;
+	std::vector<uint8_t> buffer_;
 	int next_idx_;
 };
 

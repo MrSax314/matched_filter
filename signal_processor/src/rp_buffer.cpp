@@ -10,7 +10,7 @@
 namespace matched_filter {
 
 RPBuffer::RPBuffer(int rp_count, size_t rp_size) {
-	// Size number of resource periods
+	// Init resource period buffer memory
 	data_.resize(rp_count);
 	InitializePinnedMemory(rp_size);
 	spdlog::info("Allocated {0} resource periods", rp_count);
