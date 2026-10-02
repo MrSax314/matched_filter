@@ -3,6 +3,7 @@
 #include <rp_buffer.h>
 
 #include <cstdlib>
+#include <stdexcept>
 
 #include "spdlog/spdlog.h"
 
@@ -40,6 +41,7 @@ void RPBuffer::InitializePinnedMemory(size_t rp_size) {
 		if (err != cudaSuccess) {
 			spdlog::error("Failed to allocate RPBuffer: CUDA Error at {0} : {1} -> {2}", __FILE__,
 						  __LINE__, cudaGetErrorString(err));
+			throw std::runtime_error("Error in RPBuffer::InitializePinnedMemory()");
 		}
 	}
 }
