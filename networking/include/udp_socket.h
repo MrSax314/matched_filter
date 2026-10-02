@@ -12,7 +12,7 @@ class UDPClient {
 	UDPClient(const UDPClient& client) = delete;
 	UDPClient(UDPClient&& client) = delete;
 
-	explicit UDPClient(const ConfigFile& cfg);
+	explicit UDPClient(const int& port);
 	~UDPClient();
 
 	void ReadMessage();

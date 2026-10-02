@@ -11,7 +11,7 @@
 
 namespace matched_filter {
 
-UDPClient::UDPClient(const ConfigFile& cfg) {
+UDPClient::UDPClient(const int& port) {
 	// Create IPv4 UDP socket
 	sockfd_ = socket(AF_INET, SOCK_DGRAM, 0);
 	if (sockfd_ < 0) {
@@ -26,7 +26,7 @@ UDPClient::UDPClient(const ConfigFile& cfg) {
 
 	servaddr.sin_family = AF_INET;	// IPv4
 	servaddr.sin_addr.s_addr = INADDR_ANY;
-	servaddr.sin_port = htons(cfg.port);
+	servaddr.sin_port = htons(port);
 
 	// Bind socket to server
 	int ret = bind(sockfd_, (const struct sockaddr*)&servaddr, sizeof(servaddr));

@@ -20,6 +20,7 @@ class ResourcePeriod {
 
 class RPBuffer {
   public:
+	RPBuffer() = delete;
 	RPBuffer(const RPBuffer& buff) = delete;
 	RPBuffer(RPBuffer&& buff) = delete;
 
