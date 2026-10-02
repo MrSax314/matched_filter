@@ -15,6 +15,8 @@ class UDPClient {
 	explicit UDPClient(const ConfigFile& cfg);
 	~UDPClient();
 
+	void ReadMessage();
+
   private:
 	int sockfd_ = -1;
 	int port_ = 0;

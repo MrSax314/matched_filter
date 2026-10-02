@@ -44,4 +44,13 @@ UDPClient::~UDPClient() {
 	}
 }
 
+void UDPClient::ReadMessage() {
+	char buffer[1024];
+	ssize_t n = recv(sockfd_, buffer, sizeof(buffer) - 1, 0);
+
+	if (n < 0) {
+		spdlog::info("No data received");
+	}
+}
+
 }  // namespace matched_filter
