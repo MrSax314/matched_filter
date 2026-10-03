@@ -60,12 +60,39 @@ UDPClient::~UDPClient() {
 
 void UDPClient::ReadMessage(RPBuffer& buffer) {
 	ssize_t n = recv(sockfd_, pinned_buffer_, max_message_size_, 0);
-
 	if (n < 0) {
 		spdlog::info("No data received");
+		return;
 	} else {
 		spdlog::info("Received {0} bytes", n);
 	}
+
+	// Validate packet
+	auto* header = reinterpret_cast<IqPacketHeader*>(pinned_buffer_);
+	if (!IsValidHeader(header, n)) {
+		spdlog::error("Invalid header received");
+		return;
+	}
+
+	// Find which range window data is for
+}
+
+bool UDPClient::IsValidHeader(IqPacketHeader* header, ssize_t byte_ct) {
+	if (header->magic != kIqMagic) {
+		spdlog::warn("Received unauthorized message");
+		return false;
+	}
+	if (header->version != kIqVersion) {
+		spdlog::warn("Received message of incorrect version");
+		return false;
+	}
+
+	if (header->header_size < sizeof(IqPacketHeader)) {
+		spdlog::warn("Received message of incorrect version");
+		return false;
+	}
+
+	if (header->num_samples) return true;
 }
 
 }  // namespace matched_filter

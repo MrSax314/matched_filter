@@ -16,10 +16,14 @@ int main() {
 		const matched_filter::ConfigFile& config = app_config.GetConfig();
 
 		// Configure signal processor
-		const size_t max_message_size = 1500;  // TODO(as3): Move to config file
-		size_t resource_period_size = config.sample_rate_hz * config.pri_s;
+		const size_t max_message_size_b = 1500;	 // bytes
+		// TODO(as3): Move to config file
+
+		// Receive window is from start of transmit to start of following transmit,
+		// so the number of samples is simply the sampling rate * pulse rate interval
+		size_t receive_window_sample_ct = config.sample_rate_hz * config.pri_s;	 //
 		matched_filter::SignalProcessor signal_processor(
-		  config.rp_buffer_count, resource_period_size, config.port, max_message_size);
+		  config.rw_buffer_count, receive_window_sample_ct, config.port, max_message_size_b);
 
 		// Start threads and streams
 		signal_processor.StartListener();

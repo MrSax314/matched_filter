@@ -19,12 +19,13 @@ class SignalProcessor {
 	/**
 	 * @brief Construct a new Signal Processor object
 	 *
-	 * @param rp_count Number of resource periods to allocate
-	 * @param rp_size Number of bytes in each resource period
+	 * @param rw_count Number of range windows to allocate
+	 * @param rw_sample_ct Number of samples in each range window
 	 * @param port Network port for listening for messages
 	 */
-	explicit SignalProcessor(int rp_count, size_t rp_size, int port, const size_t max_message_size)
-		: rp_buffer_(rp_count, rp_size), connection_(port, max_message_size) {};
+	explicit SignalProcessor(int rw_count, size_t rw_sample_ct, int port,
+							 const size_t max_message_size)
+		: rp_buffer_(rw_count, rw_sample_ct), connection_(port, max_message_size) {};
 
 	void StartListener();
 	void StopListener();

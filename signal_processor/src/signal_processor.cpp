@@ -19,6 +19,7 @@ void SignalProcessor::StopListener() {
 	if (listener_thread_.joinable()) {
 		listener_thread_.join();
 	}
+	// TODO(as3): Print out received message error statistics
 	spdlog::info("Shutdown lister thread");
 }
 

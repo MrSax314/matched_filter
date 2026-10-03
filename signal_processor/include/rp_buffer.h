@@ -24,15 +24,26 @@ class RPBuffer {
 	RPBuffer(const RPBuffer& buff) = delete;
 	RPBuffer(RPBuffer&& buff) = delete;
 
-	explicit RPBuffer(int rp_count, size_t rp_size);
+	/**
+	 * @brief Construct a new RPBuffer object and allocate pinned memory
+	 *
+	 * @param rw_count Number of receive windows to allocate in buffer
+	 * @param rw_sample_ct Number of samples per receive window
+	 */
+	explicit RPBuffer(int rw_count, size_t rw_sample_ct);
 	~RPBuffer();
 	ResourcePeriod GetNextAvailable(const int& buffer_size);
 
   private:
-	void InitializePinnedMemory(size_t rp_size);
+	/**
+	 * @brief Allocate pinned memory for receive window buffer
+	 *
+	 * @param rw_size Number of samples per receive window
+	 */
+	void InitializePinnedMemory(size_t rw_sample_ct);
 
 	std::vector<ResourcePeriod> data_;
-	std::vector<uint8_t> buffer_;
+	std::vector<uint8_t> rw_buffer_;
 	int next_idx_;
 };
 

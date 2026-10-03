@@ -9,11 +9,12 @@
 
 namespace matched_filter {
 
-RPBuffer::RPBuffer(int rp_count, size_t rp_size) {
+RPBuffer::RPBuffer(int rw_count, size_t rw_sample_ct) {
 	// Init resource period buffer memory
-	data_.resize(rp_count);
-	InitializePinnedMemory(rp_size);
-	spdlog::info("Allocated {0} resource periods", rp_count);
+	data_.resize(rw_count);
+	InitializePinnedMemory(rw_sample_ct * sizeof(cuComplex));
+	spdlog::info("Allocated {0} resource periods of {1} samples ({2} bytes total)", rw_count,
+				 rw_sample_ct, rw_sample_ct * sizeof(cuComplex));
 }
 
 RPBuffer::~RPBuffer() {
@@ -32,12 +33,13 @@ ResourcePeriod RPBuffer::GetNextAvailable(const int& buffer_size) { return data_
 
 /** Private */
 
-void RPBuffer::InitializePinnedMemory(size_t rp_size) {
+void RPBuffer::InitializePinnedMemory(size_t rw_sample_ct) {
 	cudaError_t err;
 	cuComplex* data_ptr;
 	for (auto& buffer : data_) {
 		data_ptr = buffer.GetData();
-		err = cudaHostAlloc((void**)&data_ptr, rp_size, cudaHostAllocDefault);
+		err =
+		  cudaHostAlloc((void**)&data_ptr, rw_sample_ct * sizeof(cuComplex), cudaHostAllocDefault);
 		if (err != cudaSuccess) {
 			spdlog::error("Failed to allocate RPBuffer: CUDA Error at {0} : {1} -> {2}", __FILE__,
 						  __LINE__, cudaGetErrorString(err));

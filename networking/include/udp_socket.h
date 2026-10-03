@@ -2,6 +2,7 @@
 
 #include <sys/socket.h>
 
+#include "message.h"
 #include "rp_buffer.h"
 
 namespace matched_filter {
@@ -17,6 +18,7 @@ class UDPClient {
 	~UDPClient();
 
 	void ReadMessage(RPBuffer& buffer);
+	bool IsValidHeader(IqPacketHeader* header, ssize_t byte_ct);
 
   private:
 	uint8_t* pinned_buffer_;

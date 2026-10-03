@@ -9,12 +9,12 @@ namespace matched_filter {
 struct ConfigFile {
 	std::string ip;
 	int port;
-	int rp_buffer_count;
+	int rw_buffer_count;
 	float sample_rate_hz;
 	float pri_s;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ConfigFile, ip, port, rp_buffer_count, sample_rate_hz, pri_s);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ConfigFile, ip, port, rw_buffer_count, sample_rate_hz, pri_s);
 
 class AppConfig {
   public:
