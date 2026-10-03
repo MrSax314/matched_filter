@@ -1,21 +1,36 @@
 #pragma once
-#include <cuComplex.h>
 #include <stdint.h>
 
+#include <cstddef>
 #include <cstdint>
+#include <cuda/std/complex>
+#include <map>
+#include <optional>
+#include <queue>
 #include <vector>
+
+#include "message.h"
 
 namespace matched_filter {
 
+using CCFloat = cuda::std::complex<float>;
+
 class ReceiveWindow {
   public:
-	cuComplex* GetData() { return h_complex_data_; }
-	uint64_t GetPulseID() { return pulse_idx_; }
+	CCFloat* GetData() { return h_complex_data_; }
+
+	// TODO(as3): Verify we are setting these at the right time
+	void SetData(CCFloat* data) { h_complex_data_ = data; }
+	void SetSize(const size_t& size) { size_ = size; }
+
+	void AddFilledBytes(const size_t& bytes_filled) { filled_bytes_ += bytes_filled; }
+	bool IsFull() { return filled_bytes_ >= size_; }
 
   private:
-	cuComplex* h_complex_data_ = nullptr;
-	uint64_t pulse_idx_ = 0;
-	uint32_t next_free_idx_ = 0;
+	CCFloat* h_complex_data_ = nullptr;
+	size_t size_ = 0;
+
+	size_t filled_bytes_ = 0;
 };
 
 class RWBuffer {
@@ -32,7 +47,8 @@ class RWBuffer {
 	 */
 	explicit RWBuffer(int rw_count, size_t rw_sample_ct);
 	~RWBuffer();
-	ReceiveWindow GetNextAvailable(const int& buffer_size);
+
+	void StoreSamples(const IqPacketHeader* header, const uint8_t* iq_bytes);
 
   private:
 	/**
@@ -42,9 +58,24 @@ class RWBuffer {
 	 */
 	void InitializePinnedMemory(size_t rw_sample_ct);
 
+	ReceiveWindow* GetNextAvailable(const uint64_t& pulse_index);
+	ReceiveWindow* GetReceiveWindow(const int& vector_index) { return &data_.at(vector_index); }
+
+	std::optional<size_t> IsCached(uint64_t pulse_index) {
+		auto value = pulse_id_to_index_.find(pulse_index);
+		if (value == pulse_id_to_index_.end()) {
+			return std::nullopt;
+		}
+		return value->second;
+	}
+
 	std::vector<ReceiveWindow> data_;
-	std::vector<uint8_t> rw_buffer_;
-	int next_idx_;
+
+	// TODO(as3): Verify push and pop at correct time for each of these
+	//! Add available when processing complete
+	//! Remove pulse id when data processing complete
+	std::map<uint64_t, size_t> pulse_id_to_index_;
+	std::queue<uint32_t> available_windows_;
 };
 
 }  // namespace matched_filter

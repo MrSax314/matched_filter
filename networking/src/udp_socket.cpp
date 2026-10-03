@@ -64,7 +64,7 @@ void UDPClient::ReadMessage(RWBuffer& buffer) {
 		spdlog::info("No data received");
 		return;
 	} else {
-		spdlog::info("Received {0} bytes", n);
+		spdlog::debug("Received {0} bytes", n);
 	}
 
 	// Validate packet
@@ -74,7 +74,7 @@ void UDPClient::ReadMessage(RWBuffer& buffer) {
 		return;
 	}
 
-	// Find which receive window data is for
+	buffer.StoreSamples(header, pinned_buffer_ + sizeof(IqPacketHeader));
 }
 
 bool UDPClient::IsValidHeader(IqPacketHeader* header, ssize_t byte_ct) {
@@ -92,7 +92,8 @@ bool UDPClient::IsValidHeader(IqPacketHeader* header, ssize_t byte_ct) {
 		return false;
 	}
 
-	if (header->num_samples) return true;
+	// TODO(as3): Verify no other memebers need to be checked
+	return true;
 }
 
 }  // namespace matched_filter

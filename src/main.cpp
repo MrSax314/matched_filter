@@ -29,7 +29,7 @@ int main() {
 		signal_processor.StartListener();
 		signal_processor.StartProcessing();
 
-		sleep(3);
+		sleep(1);
 
 		// Kill threads and streams
 		signal_processor.StopListener();
