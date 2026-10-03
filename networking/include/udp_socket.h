@@ -17,7 +17,7 @@ class UDPClient {
 	explicit UDPClient(const int& port, const size_t max_message_size);
 	~UDPClient();
 
-	void ReadMessage(RPBuffer& buffer);
+	void ReadMessage(RWBuffer& buffer);
 	bool IsValidHeader(IqPacketHeader* header, ssize_t byte_ct);
 
   private:

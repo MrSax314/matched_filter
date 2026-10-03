@@ -7,7 +7,7 @@
 
 namespace matched_filter {
 
-class ResourcePeriod {
+class ReceiveWindow {
   public:
 	cuComplex* GetData() { return h_complex_data_; }
 	uint64_t GetPulseID() { return pulse_idx_; }
@@ -18,21 +18,21 @@ class ResourcePeriod {
 	uint32_t next_free_idx_ = 0;
 };
 
-class RPBuffer {
+class RWBuffer {
   public:
-	RPBuffer() = delete;
-	RPBuffer(const RPBuffer& buff) = delete;
-	RPBuffer(RPBuffer&& buff) = delete;
+	RWBuffer() = delete;
+	RWBuffer(const RWBuffer& buff) = delete;
+	RWBuffer(RWBuffer&& buff) = delete;
 
 	/**
-	 * @brief Construct a new RPBuffer object and allocate pinned memory
+	 * @brief Construct a new RWBuffer object and allocate pinned memory
 	 *
 	 * @param rw_count Number of receive windows to allocate in buffer
 	 * @param rw_sample_ct Number of samples per receive window
 	 */
-	explicit RPBuffer(int rw_count, size_t rw_sample_ct);
-	~RPBuffer();
-	ResourcePeriod GetNextAvailable(const int& buffer_size);
+	explicit RWBuffer(int rw_count, size_t rw_sample_ct);
+	~RWBuffer();
+	ReceiveWindow GetNextAvailable(const int& buffer_size);
 
   private:
 	/**
@@ -42,7 +42,7 @@ class RPBuffer {
 	 */
 	void InitializePinnedMemory(size_t rw_sample_ct);
 
-	std::vector<ResourcePeriod> data_;
+	std::vector<ReceiveWindow> data_;
 	std::vector<uint8_t> rw_buffer_;
 	int next_idx_;
 };

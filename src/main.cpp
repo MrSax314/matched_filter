@@ -32,8 +32,8 @@ int main() {
 		sleep(3);
 
 		// Kill threads and streams
-		signal_processor.StopProcessing();
 		signal_processor.StopListener();
+		signal_processor.StopProcessing();
 
 	} catch (const std::exception& err) {
 		spdlog::error("Caught exception in main: {0} - shutting down", err.what());

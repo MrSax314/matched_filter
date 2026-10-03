@@ -58,7 +58,7 @@ UDPClient::~UDPClient() {
 	}
 }
 
-void UDPClient::ReadMessage(RPBuffer& buffer) {
+void UDPClient::ReadMessage(RWBuffer& buffer) {
 	ssize_t n = recv(sockfd_, pinned_buffer_, max_message_size_, 0);
 	if (n < 0) {
 		spdlog::info("No data received");
@@ -74,7 +74,7 @@ void UDPClient::ReadMessage(RPBuffer& buffer) {
 		return;
 	}
 
-	// Find which range window data is for
+	// Find which receive window data is for
 }
 
 bool UDPClient::IsValidHeader(IqPacketHeader* header, ssize_t byte_ct) {

@@ -19,8 +19,8 @@ class SignalProcessor {
 	/**
 	 * @brief Construct a new Signal Processor object
 	 *
-	 * @param rw_count Number of range windows to allocate
-	 * @param rw_sample_ct Number of samples in each range window
+	 * @param rw_count Number of receive windows to allocate
+	 * @param rw_sample_ct Number of samples in each receive window
 	 * @param port Network port for listening for messages
 	 */
 	explicit SignalProcessor(int rw_count, size_t rw_sample_ct, int port,
@@ -34,7 +34,7 @@ class SignalProcessor {
 	void StopProcessing();
 
   private:
-	RPBuffer rp_buffer_;
+	RWBuffer rp_buffer_;
 	UDPClient connection_;
 
 	// Threads & Streams

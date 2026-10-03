@@ -9,15 +9,15 @@
 
 namespace matched_filter {
 
-RPBuffer::RPBuffer(int rw_count, size_t rw_sample_ct) {
-	// Init resource period buffer memory
+RWBuffer::RWBuffer(int rw_count, size_t rw_sample_ct) {
+	// Init receive window buffer memory
 	data_.resize(rw_count);
 	InitializePinnedMemory(rw_sample_ct * sizeof(cuComplex));
-	spdlog::info("Allocated {0} resource periods of {1} samples ({2} bytes total)", rw_count,
+	spdlog::info("Allocated {0} receive windows of {1} samples ({2} bytes total)", rw_count,
 				 rw_sample_ct, rw_sample_ct * sizeof(cuComplex));
 }
 
-RPBuffer::~RPBuffer() {
+RWBuffer::~RWBuffer() {
 	cudaError_t err;
 	for (auto& buffer : data_) {
 		err = cudaFreeHost((void**)buffer.GetData());
@@ -26,14 +26,14 @@ RPBuffer::~RPBuffer() {
 						  __LINE__, cudaGetErrorString(err));
 		}
 	}
-	spdlog::info("Destroyed {0} resource periods", data_.size());
+	spdlog::info("Destroyed {0} receive windows", data_.size());
 }
 
-ResourcePeriod RPBuffer::GetNextAvailable(const int& buffer_size) { return data_.at(next_idx_); }
+ReceiveWindow RWBuffer::GetNextAvailable(const int& buffer_size) { return data_.at(next_idx_); }
 
 /** Private */
 
-void RPBuffer::InitializePinnedMemory(size_t rw_sample_ct) {
+void RWBuffer::InitializePinnedMemory(size_t rw_sample_ct) {
 	cudaError_t err;
 	cuComplex* data_ptr;
 	for (auto& buffer : data_) {
